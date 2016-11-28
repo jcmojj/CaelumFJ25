@@ -16,6 +16,10 @@ public class Dao<T> {
 	public T busca(Integer id){
 		return this.manager.find(clazz,id);
 	}
+	
+	public T buscaBarata(Integer id){
+		return this.manager.getReference(clazz,id);
+	}
 
 	public List<T> lista() {
 		return this.manager.createQuery("select c from "+clazz.getSimpleName() +" c", clazz)
