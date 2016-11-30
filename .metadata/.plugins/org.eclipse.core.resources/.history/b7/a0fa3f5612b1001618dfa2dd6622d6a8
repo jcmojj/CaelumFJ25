@@ -1,0 +1,19 @@
+package br.com.caelum.financas.testeDao;
+
+import javax.persistence.EntityManager;
+
+import br.com.caelum.financas.dao.Dao;
+import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.util.JPAutil;
+
+public class TestaAlteraConta {
+	public static void main(String[] args) {
+		EntityManager manager = new JPAutil().getEntityManager();
+		Dao dao = new Dao(manager, Conta.class);
+		manager.getTransaction().begin();
+		Conta conta = dao.busca(2);
+		conta.setTitular("Joao");
+		manager.getTransaction().commit();
+		manager.close();
+	}
+}

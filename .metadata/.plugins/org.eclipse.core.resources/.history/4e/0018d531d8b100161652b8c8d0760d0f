@@ -1,0 +1,39 @@
+package br.com.caelum.financas.teste;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+import javax.persistence.EntityManager;
+
+import br.com.caelum.financas.dao.Dao;
+import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.modelo.Movimentacao;
+import br.com.caelum.financas.modelo.TipoMovimentacao;
+import br.com.caelum.financas.util.JPAutil;
+
+public class TestaMovimentacaoDao {
+	public static void main(String[] args) {
+		EntityManager manager = new JPAutil().getEntityManager();
+		Dao<Conta> daoConta = new Dao<Conta>(manager,Conta.class);
+		Conta conta = daoConta.busca(1);
+		Dao<Movimentacao> daoMovimentacao = new Dao<Movimentacao>(manager,Movimentacao.class);
+		Movimentacao mov = daoMovimentacao.busca(1);
+		Movimentacao mov2 = daoMovimentacao.buscaBarata(1);		
+		Conta conta2 = mov2.getConta();
+		
+
+		mov.setValor(new BigDecimal("0.1"));
+		mov.setData(Calendar.getInstance());
+		mov.setTipoMovimentacao(TipoMovimentacao.ENTRADA);
+		mov.setDescricao("Gastando muito!");
+		manager.getTransaction().begin();
+		// problema ocorre tambem se eu preencher os dados da conta e da 
+		// movimentacao ao mesmo tempo @ManyToOne(cascade=CascaeType.PERSIST)
+		Conta conta = manager.find(Conta.class,2); //op1
+		//op2 manager.persist(new Conta(construtor tem que estar bem feito));//ou -bem pior
+		mov.setConta(conta);
+		manager.persist(mov);
+		manager.getTransaction().commit();
+		manager.close();
+	}
+}

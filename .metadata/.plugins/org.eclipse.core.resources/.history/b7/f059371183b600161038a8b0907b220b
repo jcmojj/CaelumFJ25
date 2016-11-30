@@ -1,0 +1,17 @@
+package br.com.caelum.financas.modelo;
+
+import java.math.BigDecimal;
+
+public class valorPorMesEAno {
+	private BigDecimal valor;
+	private Integer mes;
+	private Integer ano;
+	private Integer anomes;
+	
+	public valorPorMesEAno(BigDecimal valor, Integer mes, Integer ano, Integer anomes){
+		this.ano = ano;
+		this.mes = mes;
+		this.valor = valor;
+		this.anomes = anomes;
+	}
+}
