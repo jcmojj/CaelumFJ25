@@ -3,13 +3,18 @@ package br.com.caelum.financas.modelo;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cacheable
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +26,8 @@ public class Conta implements Serializable {
 	private String agencia;
 	private String numero;
 	private String banco;
-	@OneToMany(mappedBy="conta") //One-minha classe -- many-atributo que estou montando
+	@Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
+	@OneToMany(mappedBy="conta") //One-minha classe - - many-atributo que estou montando
 	private List<Movimentacao>movimentacoes;
 
 	public List<Movimentacao> getMovimentacoes() {

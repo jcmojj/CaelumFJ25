@@ -1,42 +1,32 @@
 package br.com.caelum.financas.modelo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+@EntityListeners(AtualizadorDeData.class)
 @Entity
-public class Movimentacao implements Serializable {
- 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+public class Movimentacao implements Atualizavel{
+	
+	@Id 
+	@GeneratedValue
 	private Integer id;
 	private String descricao;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar data;
 	private BigDecimal valor;
-	
-	@ManyToOne 
+	@ManyToOne
 	private Conta conta;
-	
 	@Enumerated(EnumType.STRING)
-	private TipoMovimentacao tipoMovimentacao;
-	
-	public TipoMovimentacao getTipoMovimentacao() {
-		return tipoMovimentacao;
-	}
-
-	public void setTipoMovimentacao(TipoMovimentacao tipoMovimentacao) {
-		this.tipoMovimentacao = tipoMovimentacao;
-	}
+	private EnumTipoMovimentacao tipoMovimentacao;
 
 	public Integer getId() {
 		return id;
@@ -77,5 +67,15 @@ public class Movimentacao implements Serializable {
 	public void setConta(Conta conta) {
 		this.conta = conta;
 	}
+
+	public EnumTipoMovimentacao getTipoMovimentacao() {
+		return tipoMovimentacao;
+	}
+
+	public void setTipoMovimentacao(EnumTipoMovimentacao tipoMovimentacao) {
+		this.tipoMovimentacao = tipoMovimentacao;
+	}
+	
+	
 
 }

@@ -7,11 +7,10 @@ import javax.persistence.EntityManager;
 import br.com.caelum.financas.modelo.Movimentacao;
 
 public class MovimentacaoDao {
+	private EntityManager manager;
 
-	EntityManager manager;
-
-	public void adiciona(Movimentacao movimentacao) {
-		this.manager.persist(movimentacao);
+	public MovimentacaoDao(EntityManager manager) {
+		this.manager = manager;
 	}
 
 	public Movimentacao busca(Integer id) {
@@ -19,12 +18,20 @@ public class MovimentacaoDao {
 	}
 
 	public List<Movimentacao> lista() {
-		return this.manager.createQuery("select m from Movimentacao m", Movimentacao.class).getResultList();
+		return this.manager.createQuery("select m from Movimentacao m",
+				Movimentacao.class).getResultList();
 	}
 
-	public void remove(Movimentacao movimentacao) {
-		Movimentacao movimentacaoParaRemover = this.manager.find(Movimentacao.class, movimentacao.getId());
-		this.manager.remove(movimentacaoParaRemover);
+	public void adiciona(Movimentacao mov) {
+		// TODO Auto-generated method stub
+		this.manager.persist(mov);
+
+	}
+
+	public void remove(Movimentacao mov) {
+		// TODO Auto-generated method stub
+		this.manager.remove(mov);
+
 	}
 
 }

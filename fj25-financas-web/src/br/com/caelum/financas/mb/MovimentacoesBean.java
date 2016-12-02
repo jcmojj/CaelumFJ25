@@ -57,8 +57,8 @@ public class MovimentacoesBean implements Serializable {
 		Conta contaRelacionada = contaDao.busca(contaId);
 		movimentacao.setConta(contaRelacionada);
 		movimentacaoDao.adiciona(movimentacao);
-		//this.movimentacoes = movimentacaoDao.lista();
-		this.movimentacoes = movimentacaoDao.listaComCategorias();;
+		this.movimentacoes = movimentacaoDao.lista();
+		//this.movimentacoes = movimentacaoDao.listaComCategorias();;
 		limpaFormularioDoJSF();
 	}
 	
@@ -66,15 +66,15 @@ public class MovimentacoesBean implements Serializable {
 	public void remove() {
 		System.out.println("Removendo a movimentacao");
 		movimentacaoDao.remove(movimentacao);
-		//this.movimentacoes = movimentacaoDao.lista();
-		this.movimentacoes = movimentacaoDao.listaComCategorias();		
+		this.movimentacoes = movimentacaoDao.lista();
+		//this.movimentacoes = movimentacaoDao.listaComCategorias();		
 		limpaFormularioDoJSF();
 	}
 
 	public List<Movimentacao> getMovimentacoes() {
 		if(this.movimentacoes==null){
-			//this.movimentacoes = movimentacaoDao.lista();
-			this.movimentacoes = movimentacaoDao.listaComCategorias();	
+			this.movimentacoes = movimentacaoDao.lista();
+			//this.movimentacoes = movimentacaoDao.listaComCategorias();	
 		}
 		
 		return movimentacoes;

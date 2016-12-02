@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
@@ -18,10 +18,11 @@ import br.com.caelum.financas.modelo.ValorPorMesEAno;
 @Stateless
 public class MovimentacaoDao {
 
-	@PersistenceContext
+	@Inject
 	private EntityManager manager;
 
 	public void adiciona(Movimentacao movimentacao) {
+		this.manager.joinTransaction();
 		this.manager.persist(movimentacao);
 		if(movimentacao.getValor().compareTo(BigDecimal.ZERO) < 0){
 			throw new ValorInvalidoException("Movimentacao negativa");
@@ -38,6 +39,7 @@ public class MovimentacaoDao {
 	}
 
 	public void remove(Movimentacao movimentacao) {
+		this.manager.joinTransaction();
 		Movimentacao movimentacaoParaRemover = this.manager.find(
 				Movimentacao.class, movimentacao.getId());
 		this.manager.remove(movimentacaoParaRemover);
@@ -57,6 +59,7 @@ public class MovimentacaoDao {
 		Query query = manager.createQuery(jpql);
 		query.setParameter("valor", valor );
 		query.setParameter("tipo", tipo);
+		query.setHint("org.hibernate.cacheable", "true");
 		return query.getResultList();//java 7 esta fazendo o casting
 		// senao seria return (List<Movimentacao>)query.getResultList(); - java 6
 	}
